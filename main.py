@@ -100,10 +100,10 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'))
 
 
-# # for db creation after dropping previous db due to schema change
-# with app.app_context():
-#     db.create_all()
-#     db.session.commit()
+# for db creation after dropping previous db due to schema change, or for first push to Heroku production environment
+with app.app_context():
+    db.create_all()
+    db.session.commit()
 
 
 @app.route('/')
