@@ -52,8 +52,8 @@ gravatar = Gravatar(app,
 
 
 # CONNECT TO DB
-file_path = os.path.abspath(os.getcwd())+"/blog.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+app.config['SQLALCHEMY_DATABASE_URI'] = config("DATABASE_URL",
+                                               'sqlite:///' + os.path.abspath(os.getcwd())+"/blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -246,5 +246,9 @@ def delete_post(post_id):
 
 
 server_port = int(config("PORT", 8000))
+if config("DATABASE_URL", False):
+    debug_status = False
+else:
+    debug_status = True
 if __name__ == "__main__":
-    app.run(port=server_port, debug=False)
+    app.run(port=server_port, debug=debug_status)
