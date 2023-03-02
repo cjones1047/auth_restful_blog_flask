@@ -54,6 +54,9 @@ gravatar = Gravatar(app,
 # CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = config("DATABASE_URL",
                                                'sqlite:///' + os.path.abspath(os.getcwd())+"/blog.db")
+# to fix SQLAlchemy no longer supporting PostgreSQL db addresses starting with 'postgres://'
+if app.config['SQLALCHEMY_DATABASE_URI'].startswith("postgres://"):
+    app.config['SQLALCHEMY_DATABASE_URI'].replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
